@@ -1,6 +1,10 @@
 time
 part 3
 
+admin page
+admin
+password
+
 
 # If you are asked for default values, I mean adding columns to the existing table
 press 1, to provide default value and then type empty string ''
