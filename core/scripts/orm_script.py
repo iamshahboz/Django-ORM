@@ -1,5 +1,7 @@
-from core.models import Restourant, Sale
+from core.models import Restourant, Sale, Rating
 from django.utils import timezone
+from pprint import pprint
+from django.contrib.auth.models import User 
 from django.db import connection
 def run():
     
@@ -30,7 +32,40 @@ def run():
     # print(connection.queries)
 
     # to get the count of restaurants you can do 
-    print(Restourant.objects.count())
-    print(connection.queries)
+    # print(Restourant.objects.count())
+    # print(connection.queries)
 
     # we have also last method, first method
+
+    # quering foreign key objects
+    # restaurant = Restourant.objects.first()
+    # user = User.objects.first()
+    # Rating.objects.create(user=user,restaurant=restaurant,rating=3)
+    
+    # filtering
+    # print(Rating.objects.filter(rating=3))
+    # print(connection.queries)
+
+    #print(Rating.objects.filter(rating=5))
+
+    # query lookup
+    print(Rating.objects.filter(rating__gte=3))
+    print(connection.queries)
+
+    # we have exclude, when we use it the condition which is passed to that 
+    # function is actually what is not brought back from the database
+
+    # updating queries
+    restaurant = Restourant.objects.first()
+    print(restaurant.name)
+
+    restaurant.name = 'ahahahah'
+    restaurant.save()
+    pprint(connection.queries)
+
+
+
+
+
+
+
