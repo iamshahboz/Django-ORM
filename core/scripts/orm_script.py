@@ -49,19 +49,32 @@ def run():
     #print(Rating.objects.filter(rating=5))
 
     # query lookup
-    print(Rating.objects.filter(rating__gte=3))
-    print(connection.queries)
+    # print(Rating.objects.filter(rating__gte=3))
+    # print(connection.queries)
 
     # we have exclude, when we use it the condition which is passed to that 
     # function is actually what is not brought back from the database
 
     # updating queries
-    restaurant = Restourant.objects.first()
-    print(restaurant.name)
+    # restaurant = Restourant.objects.first()
+    # print(restaurant.name)
 
-    restaurant.name = 'ahahahah'
-    restaurant.save()
-    pprint(connection.queries)
+    # restaurant.name = 'ahahahah'
+    # restaurant.save()
+    # pprint(connection.queries)
+
+    # accessing foreign key child object from parent object
+    restaurant = Restourant.objects.first()
+    
+    # this will return all the ratings of the first restaurant
+    #print(restaurant.rating_set.all())
+
+    # after adding related name we can access with the related name keyword
+
+    print(restaurant.ratings.all())
+    
+
+
 
 
 
