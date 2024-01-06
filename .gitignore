@@ -1,3 +1,4 @@
 core/__pycache__/
 orm/__pycache__/
 core/migrations/__pycache__/
+core/scripts/__pycache__/
