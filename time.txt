@@ -1,6 +1,6 @@
 time
 part 3
-26:50
+30:00
 
 admin page
 admin
