@@ -144,10 +144,16 @@ def run():
     # print(connection.queries)
 
     # deleting rows and querysets
-    restaurant = Restourant.objects.first()
-    print(restaurant.delete())
-    print(connection.queries)
-    
+    # restaurant = Restourant.objects.first()
+    # print(restaurant.delete())
+    # print(connection.queries)
+
+    # if you want to delete all of the records you can do 
+
+    # Restourant.objects.all().delete()
+    # print(connection.queries)
+
+
 
 
 
