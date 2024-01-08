@@ -64,14 +64,55 @@ def run():
     # pprint(connection.queries)
 
     # accessing foreign key child object from parent object
-    restaurant = Restourant.objects.first()
+    # restaurant = Restourant.objects.first()
     
     # this will return all the ratings of the first restaurant
     #print(restaurant.rating_set.all())
 
     # after adding related name we can access with the related name keyword
 
-    print(restaurant.ratings.all())
+    # print(restaurant.ratings.all())
+
+    # creating object instance 
+    # Sale.objects.create(
+    #     restaurant = Restourant.objects.first(),
+    #     income = 2.33,
+    #     datetime  = timezone.now()
+    # )
+    # Sale.objects.create(
+    #     restaurant = Restourant.objects.first(),
+    #     income = 8.20,
+    #     datetime  = timezone.now()
+    # )
+
+    # restaurants = Restourant.objects.first()
+    # print(restaurants.sales.all())
+
+    # get or create method 
+    user = User.objects.first()
+    restaurant  = Restourant.objects.first()
+
+    # print(Rating.objects.get_or_create(
+    #     restaurant = restaurant,
+    #     user = user,
+    #     rating = 4
+
+    # ))
+    # pprint(connection.queries)
+
+
+    # since it returns tuple you can assign it to a variable and do some logic 
+
+    rating, created = Rating.objects.get_or_create(
+        restaurant = restaurant,
+        user = user,
+        rating=4
+    )
+
+    # logic might be 
+        if created:
+        # send email message
+    
     
 
 
