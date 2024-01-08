@@ -125,13 +125,32 @@ def run():
 
     # what if we want to update the date opened field for all of the records in the database
 
-    restaurant = Restourant.objects.all()
-    restaurant.update(
-        date_opened = timezone.now()
+    # restaurant = Restourant.objects.all()
+    # restaurant.update(
+    #     date_opened = timezone.now()
         
-    )
+    # )
 
+    # print(connection.queries)
+
+    # restaurants = Restourant.objects.filter(name__startswith='P')
+    # print(restaurants)
+
+    # print(restaurants.update(
+    #     date_opened = timezone.now()-timezone.timedelta(days=365),
+    #     website = 'https://home.tj'
+
+    # ))
+    # print(connection.queries)
+
+    # deleting rows and querysets
+    restaurant = Restourant.objects.first()
+    print(restaurant.delete())
     print(connection.queries)
+    
+
+
+
 
     
 
