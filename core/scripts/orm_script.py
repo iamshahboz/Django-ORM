@@ -89,8 +89,8 @@ def run():
     # print(restaurants.sales.all())
 
     # get or create method 
-    user = User.objects.first()
-    restaurant  = Restourant.objects.first()
+    # user = User.objects.first()
+    # restaurant  = Restourant.objects.first()
 
     # print(Rating.objects.get_or_create(
     #     restaurant = restaurant,
@@ -103,16 +103,36 @@ def run():
 
     # since it returns tuple you can assign it to a variable and do some logic 
 
-    rating, created = Rating.objects.get_or_create(
-        restaurant = restaurant,
-        user = user,
-        rating=4
-    )
+    # rating, created = Rating.objects.get_or_create(
+    #     restaurant = restaurant,
+    #     user = user,
+    #     rating=4
+    # )
 
     # logic might be 
-        if created:
+        #if created:
         # send email message
     
+    # updating instance after overriding save method in the models
+
+    # restaurant = Restourant()
+    # restaurant.name = 'My Italian Restaurant #2'
+    # restaurant.date_opened = timezone.now()
+    # restaurant.restourant_type = Restourant.TypeChoices.ITALIAN
+    # restaurant.latitude = 44.9
+    # restaurant.longitude = 30.9
+    # restaurant.save()
+
+    # what if we want to update the date opened field for all of the records in the database
+
+    restaurant = Restourant.objects.all()
+    restaurant.update(
+        date_opened = timezone.now()
+        
+    )
+
+    print(connection.queries)
+
     
 
 
