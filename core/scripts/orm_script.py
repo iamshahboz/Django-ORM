@@ -3,6 +3,9 @@ from django.utils import timezone
 from pprint import pprint
 from django.contrib.auth.models import User 
 from django.db import connection
+from django.db.models.functions import Lower
+
+
 def run():
     
     # in order to create a record you do like this
@@ -167,14 +170,79 @@ def run():
 
     # filtering using in filter
 
-    chinese = Restourant.TypeChoices.CHINESE
-    indian = Restourant.TypeChoices.INDIAN
-    mexican = Restourant.TypeChoices.MEXICAN
-    check_types = [chinese,indian,mexican]
+    # chinese = Restourant.TypeChoices.CHINESE
+    # indian = Restourant.TypeChoices.INDIAN
+    # mexican = Restourant.TypeChoices.MEXICAN
+    # check_types = [chinese,indian,mexican]
 
-    restaurants = Restourant.objects.filter(restourant_type__in=check_types)
-    pprint(restaurants)
+    # restaurants = Restourant.objects.filter(restourant_type__in=check_types)
+    # pprint(restaurants)
+    # print(connection.queries)
+
+    # you can use exclude method which allows you to handle not in scenerio
+
+    # chinese = Restourant.TypeChoices.CHINESE
+    # restaurants = Restourant.objects.exclude(restourant_type=chinese)
+    # print(restaurants)
+    # pprint(connection.queries)
+
+    # now lets get back all the list of restaurants which the name 
+    # starts with A, B, C, D
+
+    # restaurants = Restourant.objects.filter(name__lt='E')
+    # print(restaurants)
+    # print(connection.queries)
+
+    # get the sales greater than specific value
+
+    # sale = Sale.objects.filter(income__gt=90)
+    # print(sale)
+    # print(connection.queries)
+
+    # range 
+    # sales = Sale.objects.filter(income__range=(40,60))
+    # print(sales)
+    # print([sale.income for sale in sales])
+    # print(connection.queries)
+
+    # we can also order by the returned query
+
+    # now the problem is that it is case sensitive
+    # restaurants = Restourant.objects.order_by('name').reverse()
+    # print(restaurants)
+
+    # print(connection.queries)
+
+    # in order to handle the issue we can import the build in funciton
+
+    # restaurants = Restourant.objects.order_by(Lower('name')).reverse()
+    # print(restaurants)
+
+    # print(connection.queries)
+
+    # we can limit 
+    # restaurants = Restourant.objects.all()
+    # print(restaurants)
+    # print(connection.queries)
+
+
+    # earliest is for datetime
+    # latest is also for datetime. They are not a queryset, but single row 
+
+
+    # filtering foreign key
+
+    ratings = Rating.objects.filter(restaurant__name__startswith='C')
+    print(ratings)
     print(connection.queries)
+    
+
+
+
+
+
+
+
     
 
 
