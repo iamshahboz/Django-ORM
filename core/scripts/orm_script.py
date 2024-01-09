@@ -153,6 +153,34 @@ def run():
     # Restourant.objects.all().delete()
     # print(connection.queries)
 
+    # filter down to only Chinese restaurant
+    # chinese = Restourant.objects.filter(restourant_type=Restourant.TypeChoices.CHINESE)
+    # pprint(chinese)
+    # print(connection.queries)
+
+    # passing multiple choices
+
+    # chinese = Restourant.TypeChoices.CHINESE
+    # restaurants = Restourant.objects.filter(restourant_type = chinese, name__startswith='C')
+    # print(restaurants)
+    # print(connection.queries)
+
+    # filtering using in filter
+
+    chinese = Restourant.TypeChoices.CHINESE
+    indian = Restourant.TypeChoices.INDIAN
+    mexican = Restourant.TypeChoices.MEXICAN
+    check_types = [chinese,indian,mexican]
+
+    restaurants = Restourant.objects.filter(restourant_type__in=check_types)
+    pprint(restaurants)
+    print(connection.queries)
+    
+
+
+
+
+
 
 
 
