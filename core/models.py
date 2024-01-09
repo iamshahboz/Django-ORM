@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User 
+from django.db.models.functions import Lower
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -24,6 +25,12 @@ class Restourant(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     restourant_type = models.CharField(max_length=5, choices = TypeChoices.choices)
+
+    # this method helps whenever this model is called using ORM it will set the ordering to name
+    
+    class Meta:
+        ordering = [Lower('name')]
+
 
     def __str__(self):
         return self.name 
