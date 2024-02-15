@@ -1,6 +1,7 @@
 time
-part 6
-15:20
+part 7
+Query optimization
+
 
 
 
