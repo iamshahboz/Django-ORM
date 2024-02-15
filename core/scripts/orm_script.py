@@ -232,9 +232,32 @@ def run():
 
     # filtering foreign key
 
-    ratings = Rating.objects.filter(restaurant__name__startswith='C')
-    print(ratings)
-    print(connection.queries)
+    # ratings = Rating.objects.filter(restaurant__name__startswith='C')
+    # print(ratings)
+    # print(connection.queries)
+
+    # now we passed exclude function. What it does, it says that give me back 
+    # all the restaurans back which does not match the condition we pass 
+    # chinese = Restourant.TypeChoices.CHINESE
+
+    # restaurants = Restourant.objects.exclude(restourant_type=chinese)
+    # print(restaurants)
+    # pprint(connection.queries)
+
+    
+    # we can get the boundaries of the income by using range
+
+    # sales = Sale.objects.filter(income__range=(50, 60))
+    # print([sale.income for sale in sales])
+    # pprint(connection.queries)
+
+    # the better use case of range will be datetime
+
+    
+
+
+
+
     
 
 
