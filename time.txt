@@ -1,6 +1,7 @@
 time
 part 7
 Query optimization
+8:07
 
 
 
