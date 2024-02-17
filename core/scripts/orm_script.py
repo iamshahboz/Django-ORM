@@ -253,6 +253,9 @@ def run():
 
     # the better use case of range will be datetime
 
+    # When you use Django ORM you can face N+1 problem based on how you write code
+    
+
     
 
 
