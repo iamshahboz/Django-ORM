@@ -1,4 +1,4 @@
-from core.models import Restourant, Sale, Rating
+from core.models import Restourant, Sale, Rating, Staff
 from django.utils import timezone
 from pprint import pprint
 from django.contrib.auth.models import User 
@@ -279,10 +279,45 @@ def run():
     # pprint(connection.queries)
 
     # get all 5 star ratings and fetch all the sales for restaurants with 5 star rating
-    _all = Restourant.objects.prefetch_related('ratings','sales') \
-    .filter(ratings__rating=5).annotate(total=Sum('sales__income'))
-    print(_all)
-    pprint(connection.queries)
+    # _all = Restourant.objects.prefetch_related('ratings','sales') \
+    # .filter(ratings__rating=5).annotate(total=Sum('sales__income'))
+    # print(_all)
+    # pprint(connection.queries)
+
+    # querying many to many fields
+
+    # lets first create a staff 
+    staff, created = Staff.objects.get_or_create(name='John Wick')
+    #print(staff.restaurants.all())
+    # you can remove 
+    #staff.restaurants.remove(Restourant.objects.first())
+    #staff.restaurants.add(Restourant.objects.first())
+    #print(staff.restaurants.all())
+    # to get the number of restaurants the staff works in 
+    # we have seen methods like all, count, remove
+    #print(staff.restaurants.count())
+
+    # now we can you set method, this method will help you to override the existing row
+    # staff.restaurants.set(Restourant.objects.all()[:10])
+    # print(staff.restaurants.count())
+
+    # you can also use filter to filter down 
+    # italian = staff.restaurants.filter(restourant_type = Restourant.TypeChoices.ITALIAN)
+    #print(italian)
+
+    # you can do with other side as well, till this time we have done from the staff side
+    # now you can do from the restaurant side and find the staff which works in restaurant
+
+
+    restaurant = Restourant.objects.get(pk=9)
+    print(restaurant.staff_set.all())
+
+
+
+
+
+
+
 
 
 
