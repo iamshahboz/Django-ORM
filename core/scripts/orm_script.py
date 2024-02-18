@@ -4,6 +4,7 @@ from pprint import pprint
 from django.contrib.auth.models import User 
 from django.db import connection
 from django.db.models.functions import Lower
+from django.db.models import Sum
 
 
 def run():
@@ -254,6 +255,39 @@ def run():
     # the better use case of range will be datetime
 
     # When you use Django ORM you can face N+1 problem based on how you write code
+    # in order to get all of the rating accosiated to each restaurant you can do
+    # ratings = Restourant.objects.prefetch_related('ratings','sales')
+    # print(ratings)
+    # pprint(connection.queries)
+
+    # if we want to fetch only the restaurants whose name starts with latter c
+    # ratings = Restourant.objects.filter(name__istartswith='c').prefetch_related('ratings')
+    # print(ratings)
+    # pprint(connection.queries)
+
+    # now we want to grab the ratings and as you know each rating is bound to a restaurant
+    # which is foreign key relationship
+
+    # don't do
+    # rating = Rating.objects.all()
+    # print(rating)
+    # pprint(connection.queries)
+
+    # do 
+    # ratings = Rating.objects.select_related('restaurant')
+    # print(ratings)
+    # pprint(connection.queries)
+
+    # get all 5 star ratings and fetch all the sales for restaurants with 5 star rating
+    _all = Restourant.objects.prefetch_related('ratings','sales') \
+    .filter(ratings__rating=5).annotate(total=Sum('sales__income'))
+    print(_all)
+    pprint(connection.queries)
+
+
+
+
+
     
 
     
