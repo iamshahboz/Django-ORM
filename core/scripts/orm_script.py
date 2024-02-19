@@ -1,4 +1,4 @@
-from core.models import Restourant, Sale, Rating, Staff
+from core.models import Restaurant, Sale, Rating, Staff
 from django.utils import timezone
 from pprint import pprint
 from django.contrib.auth.models import User 
@@ -309,8 +309,26 @@ def run():
     # now you can do from the restaurant side and find the staff which works in restaurant
 
 
-    restaurant = Restourant.objects.get(pk=9)
-    print(restaurant.staff_set.all())
+    # restaurant = Restourant.objects.get(pk=9)
+    # print(restaurant.staff_set.all())
+
+    # in some cases you might need to grab only one field not all of them,
+    # then you can use other methods like 
+
+    # restaurant = Restaurant.objects.values('name','date_opened').first()
+    # print(restaurant)
+    # pprint(connection.queries)
+
+    # it is possible to grab foreign key value using values function
+    # if you want to grab only italian restaurant with rating field. Note that 
+    # restaurant field is the foreign key to Rating model
+
+    IT = Restaurant.TypeChoices.ITALIAN
+    ratings = Rating.objects.filter(restaurant__restaurant_type=IT).values('rating','restaurant__name')
+    print(ratings)
+    
+
+
 
 
 
