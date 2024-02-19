@@ -1,7 +1,7 @@
 time
 part 7
-ManyToMany
-22:25
+Django Aggregations
+11:09
 
 
 
