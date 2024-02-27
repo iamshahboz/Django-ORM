@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.db import connection
 from django.db.models.functions import Lower
 from django.db.models import Sum
+from django.db.models import F
+from django.db.models import Count, Avg, Min, Max, Sum
+import random
 
 
 def run():
@@ -287,7 +290,7 @@ def run():
     # querying many to many fields
 
     # lets first create a staff 
-    staff, created = Staff.objects.get_or_create(name='John Wick')
+    # staff, created = Staff.objects.get_or_create(name='John Wick')
     #print(staff.restaurants.all())
     # you can remove 
     #staff.restaurants.remove(Restourant.objects.first())
@@ -333,7 +336,7 @@ def run():
     # What aggregation does, it breaks down multiple values into single values
     # for instance we want to get back the number of restaurants 
 
-    from django.db.models import Count, Avg, Min, Max, Sum
+    
     # restaurants = Restaurant.objects.aggregate(total=Count('id'))
     # print(restaurants)
     # print(connection.queries)
@@ -364,6 +367,44 @@ def run():
     # what if we want to annotate restaurants with the number of ratings
     # restaurants = Restaurant.objects.annotate(num_ratings = Count('ratings'))
     # print(restaurants.values('name','num_ratings'))
+
+    # rating = Rating.objects.filter(rating=3).first()
+    # rating.rating += 1
+    # rating.save()
+    # pprint(connection.queries)
+    # in the example above we are pulling the value of rating and saving it to the
+    # memory and adding one to the value which is stored in the memory
+
+    # there is a better way, that is using F expressions
+  
+    # rating = Rating.objects.filter(rating=3).first()
+
+    # rating.rating = F('rating') + 1 
+    # rating.save()
+    # pprint(connection.queries)
+
+    # this way we are directly accessing the rating field and adding 1 to it
+    
+    # what if you want to change the rating system and instead use 1 to 10 rating
+    # note that you have to update every single raw in the rating table 
+
+    # Rating.objects.update(rating=F('rating') / 2)
+    # pprint(connection.queries)
+
+
+    sales = Sale.objects.all()
+    for sale in sales:
+        sale.expenditure = random.uniform(5,100)
+    
+    Sale.objects.bulk_update(sales, ['expenditure'])
+    pprint(connection.queries)
+    
+    
+
+
+
+
+
 
     
 
