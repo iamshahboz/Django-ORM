@@ -323,9 +323,53 @@ def run():
     # if you want to grab only italian restaurant with rating field. Note that 
     # restaurant field is the foreign key to Rating model
 
-    IT = Restaurant.TypeChoices.ITALIAN
-    ratings = Rating.objects.filter(restaurant__restaurant_type=IT).values('rating','restaurant__name')
-    print(ratings)
+    # IT = Restaurant.TypeChoices.ITALIAN
+    # ratings = Rating.objects.filter(restaurant__restaurant_type=IT).values('rating','restaurant__name')
+    # print(ratings)
+
+    # restaurants = Restaurant.objects.values_list('name',flat=True)
+    # print(restaurants)
+
+    # What aggregation does, it breaks down multiple values into single values
+    # for instance we want to get back the number of restaurants 
+
+    from django.db.models import Count, Avg, Min, Max, Sum
+    # restaurants = Restaurant.objects.aggregate(total=Count('id'))
+    # print(restaurants)
+    # print(connection.queries)
+
+    # if we want to grab the average aggregation for rating 
+    # rating = Rating.objects.aggregate(avg=Avg('rating'))
+    # print(rating)
+    # print(connection.queries)
+
+    # if we want to grab min, max value for the particular column you can do
+
+    # insight = Sale.objects.aggregate(
+    #     _min = Min('income'),
+    #     _max = Max('income'),
+    #     _avg = Avg('income')
+    # )
+    #to grab the sales made in the past month you do
+    # one_month_ago = timezone.now() - timezone.timedelta(days=31)
+    # sales = Sale.objects.filter(datetime__gte=one_month_ago)
+    # print(sales)
+
+    # print(insight)
+
+    # Difference between aggregation and annotation
+    # When you annotate values you will get value added to each model in the queryset,
+    # but aggregation will return single value
+
+    # what if we want to annotate restaurants with the number of ratings
+    # restaurants = Restaurant.objects.annotate(num_ratings = Count('ratings'))
+    # print(restaurants.values('name','num_ratings'))
+
+    
+
+
+
+
     
 
 
