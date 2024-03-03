@@ -8,6 +8,7 @@ from django.db.models import Sum
 from django.db.models import F
 from django.db.models import Count, Avg, Min, Max, Sum
 import random
+from django.db.models import Q
 
 
 def run():
@@ -392,73 +393,24 @@ def run():
     # pprint(connection.queries)
 
 
-    sales = Sale.objects.all()
-    for sale in sales:
-        sale.expenditure = random.uniform(5,100)
+    # sales = Sale.objects.all()
+    # for sale in sales:
+    #     sale.expenditure = random.uniform(5,100)
     
-    Sale.objects.bulk_update(sales, ['expenditure'])
+    # Sale.objects.bulk_update(sales, ['expenditure'])
+    # pprint(connection.queries)
+
+    # lets see what the Q objects do 
+    # with the help of Q objects you can do OR operator
+    # assume we need to grab all Italian or mexican restaurants 
+
+    it = Restaurant.TypeChoices.ITALIAN
+    mex = Restaurant.TypeChoices.MEXICAN
+
+    all_ = Restaurant.objects.filter(
+        Q(restaurant_type=it) | Q(restaurant_type=mex)
+    )
+    print(all_)
     pprint(connection.queries)
-    
-    
-
-
-
-
-
-
-    
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
 
 
