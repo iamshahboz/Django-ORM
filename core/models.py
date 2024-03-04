@@ -28,6 +28,9 @@ class Restaurant(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     restaurant_type = models.CharField(max_length=5, choices = TypeChoices.choices)
+    capacity = models.PositiveSmallIntegerField(null=True, blank=True)
+    
+
 
     # this method helps whenever this model is called using ORM it will set the ordering to name
     
