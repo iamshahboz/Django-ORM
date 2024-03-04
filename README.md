@@ -1,5 +1,6 @@
 #### Django ORM with examples
 
 
-### Credentials to @bugbytes-io
+### Credentials to https://github.com/bugbytes-io
+
 
