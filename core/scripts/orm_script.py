@@ -9,6 +9,7 @@ from django.db.models import F
 from django.db.models import Count, Avg, Min, Max, Sum
 import random
 from django.db.models import Q
+from django.db.models.functions import Coalesce
 
 
 def run():
@@ -422,18 +423,55 @@ def run():
     # now lets grab restaurants name containing either word italian or the word mexican
     # as well as recetly opened restaurants 
 
-    it_or_mex = Q(name__icontains='italian') | Q(name__icontains='mexican')
-    recetly_opened = Q(date_opened__gt=timezone.now()-timezone.timedelta(days=40))
-    restaurants = Restaurant.objects.filter(it_or_mex | recetly_opened)
-    print(restaurants)
-    pprint(connection.queries)
+    # it_or_mex = Q(name__icontains='italian') | Q(name__icontains='mexican')
+    # recetly_opened = Q(date_opened__gt=timezone.now()-timezone.timedelta(days=40))
+    # restaurants = Restaurant.objects.filter(it_or_mex | recetly_opened)
+    # print(restaurants)
+    # pprint(connection.queries)
 
     # you use ~ in order to do negative lookup
     # it_or_mex = ~Q(name__icontains='italian') | Q(name__icontains='mexican')
     # that means name does not contain italian or mexican
 
     # for the Q objects lookup | (this is or) and &(this is and)
-    
+
+    # lets grab all the restaurants with the capacity of null
+
+    # null_capacity = Restaurant.objects.filter(capacity__isnull=False)
+    # print(null_capacity)
+    # #pprint(connection.queries)
+
+    # now lets change the capacity 
+    # restaurant1 = Restaurant.objects.first()
+    # restaurant2 = Restaurant.objects.last()
+    # restaurant1.capacity = 10
+    # restaurant2.capacity = 20
+    # restaurant1.save()
+    # restaurant2.save()
+
+    # Restaurant.objects.update(capacity=None)
+
+
+    # now lets see the COALESCE function
+    # how we can deal with null values while summing all the values
+
+    #print(Restaurant.objects.aggregate(total_capacity = Sum('capacity')))
+
+    # now the result is {'total_capacity': None} which we don't like it
+
+    # to solve this issue we can use COALESCE function
+    #print(Restaurant.objects.aggregate(total = Coalesce(Sum('capacity'), 0)))
+    # and this is the result {'total': 0}
+
+
+
+
+
+
+
+
+
+
 
 
 
