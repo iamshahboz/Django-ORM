@@ -404,13 +404,38 @@ def run():
     # with the help of Q objects you can do OR operator
     # assume we need to grab all Italian or mexican restaurants 
 
-    it = Restaurant.TypeChoices.ITALIAN
-    mex = Restaurant.TypeChoices.MEXICAN
+    # it = Restaurant.TypeChoices.ITALIAN
+    # mex = Restaurant.TypeChoices.MEXICAN
 
-    all_ = Restaurant.objects.filter(
-        Q(restaurant_type=it) | Q(restaurant_type=mex)
-    )
-    print(all_)
+    # all_ = Restaurant.objects.filter(
+    #     Q(restaurant_type=it) | Q(restaurant_type=mex)
+    # )
+    # print(all_)
+    # pprint(connection.queries)
+
+    # find any restaurant that have number one in the name
+
+    # lookup = Restaurant.objects.filter(name__icontains='1')
+    # print(lookup)
+    # pprint(connection.queries)
+
+    # now lets grab restaurants name containing either word italian or the word mexican
+    # as well as recetly opened restaurants 
+
+    it_or_mex = Q(name__icontains='italian') | Q(name__icontains='mexican')
+    recetly_opened = Q(date_opened__gt=timezone.now()-timezone.timedelta(days=40))
+    restaurants = Restaurant.objects.filter(it_or_mex | recetly_opened)
+    print(restaurants)
     pprint(connection.queries)
+
+    # you use ~ in order to do negative lookup
+    # it_or_mex = ~Q(name__icontains='italian') | Q(name__icontains='mexican')
+    # that means name does not contain italian or mexican
+
+    # for the Q objects lookup | (this is or) and &(this is and)
+    
+
+
+
 
 
