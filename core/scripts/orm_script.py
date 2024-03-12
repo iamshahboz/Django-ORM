@@ -10,6 +10,7 @@ from django.db.models import Count, Avg, Min, Max, Sum
 import random
 from django.db.models import Q
 from django.db.models.functions import Coalesce
+from django.db.models import When, Case
 
 
 def run():
@@ -462,6 +463,42 @@ def run():
     # to solve this issue we can use COALESCE function
     #print(Restaurant.objects.aggregate(total = Coalesce(Sum('capacity'), 0)))
     # and this is the result {'total': 0}
+
+    # Now lets see the Django conditional expressions in the database level
+
+    # lets say we want to annotate restaurants with a boolean whether or not it has more than 8 sales
+    # in the databse
+    
+    # restaurants = Restaurant.objects.annotate(nsales=Count('sales'))
+
+    # restaurants = restaurants.annotate(
+    #     is_popular = Case(
+    #         When(nsales__gt=8,then=True),
+    #         default=False
+    #     )
+    # )
+    #print(restaurants.values('nsales','is_popular'))
+    # print(restaurants.filter(is_popular=True))
+
+    # another situation we want to grab restaurants with average rating > 3.5   
+    # restaurants has more than 1 rating
+
+    # restaurants = Restaurant.objects.annotate(
+    #     avg= Avg('ratings__rating'),
+    #     num_ratings = Count('ratings__pk') 
+    # )
+    #print(restaurants.values('avg','num_ratings'))
+
+    # restaurants = restaurants.annotate(
+    #     highly_rated = Case(
+    #         When(avg__gt=3.5, num_ratings__gt=1, then=True),
+    #         default=False 
+    #     )
+    # )
+    # print(restaurants.filter(highly_rated=True))
+    
+
+
 
 
 
