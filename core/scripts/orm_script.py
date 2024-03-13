@@ -6,11 +6,11 @@ from django.db import connection
 from django.db.models.functions import Lower
 from django.db.models import Sum
 from django.db.models import F
-from django.db.models import Count, Avg, Min, Max, Sum
+from django.db.models import Count, Avg, Min, Max, Sum, Subquery, OuterRef, Exists
 import random
 from django.db.models import Q
 from django.db.models.functions import Coalesce
-from django.db.models import When, Case
+from django.db.models import When, Case, Value
 
 
 def run():
@@ -497,6 +497,59 @@ def run():
     # )
     # print(restaurants.filter(highly_rated=True))
     
+    # now lets assign a continent to each restaurant 
+
+    # types = Restaurant.TypeChoices
+    # europian = Q(restaurant_type=types.ITALIAN) | Q(restaurant_type=types.GREEK)
+    # asian = Q(restaurant_type=types.INDIAN) | Q(restaurant_type=types.CHINESE)
+    # north_american = Q(restaurant_type=types.MEXICAN)
+
+    # restaurants = Restaurant.objects.annotate(
+    #     continent = Case(
+    #         When(europian, then=Value('Europe')),
+    #         When(asian, then=Value('Asia')),
+    #         When(north_american, then=Value("North America")),
+    #         default=Value('N/A')
+    #     )
+    # )
+    # print(restaurants.filter(continent='North America'))
+
+    # now lets see django subqueries
+
+    # lets say we want to get all of the sales for only Italian and Chinese restaurants 
+
+    # the SQL statement will look like this 
+
+    # SELECT * FROM core_sale WHERE restaurant_id in (
+    #     SELECT id from core_restaurant WHERE restaurant_type IN ('IT', 'CH')
+    # )
+
+    #sales = Sale.objects.filter(restaurant__restaurant_type__in=['IT','CH'])
+    #print(len(sales))
+
+    # we can verify the correctness 
+    #print(sales.values_list('restaurant__restaurant_type').distinct())
+
+    # now lets try to achieve the same result using Django Subquery
+
+    # restaurants = Restaurant.objects.filter(restaurant_type__in=['IT','CH'])
+
+    # sales = Sale.objects.filter(restaurant__in=Subquery(restaurants.values('pk')))
+    # print(len(sales))
+
+    # imagine we want to filter to restaurants that have any sales with income > 85
+
+    # restaurants = Restaurant.objects.filter(
+    #     Exists(Sale.objects.filter(restaurant=OuterRef('pk'), income__gt=85))
+
+    # )
+    # print(restaurants.count())
+    # pprint(connection.queries)
+
+
+
+
+
 
 
 
